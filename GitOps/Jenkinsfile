@@ -1,6 +1,6 @@
 @Library('Shared') _
 pipeline {
-    agent {label 'Node'}
+    agent {label 'node1'}
     
     parameters {
         string(name: 'FRONTEND_DOCKER_TAG', defaultValue: '', description: 'Frontend Docker tag of the image built by the CI job')
@@ -8,18 +8,10 @@ pipeline {
     }
 
     stages {
-        stage("Workspace cleanup"){
-            steps{
-                script{
-                    cleanWs()
-                }
-            }
-        }
-        
         stage('Git: Code Checkout') {
             steps {
                 script{
-                    code_checkout("https://github.com/DevMadhup/Wanderlust-Mega-Project.git","main")
+                                        gitclone("https://github.com/Ksab070/Wanderlust-Mega-Project.git","main")
                 }
             }
         }
@@ -56,7 +48,7 @@ pipeline {
         stage("Git: Code update and push to GitHub"){
             steps{
                 script{
-                    withCredentials([gitUsernamePassword(credentialsId: 'Github-cred', gitToolName: 'Default')]) {
+                    withCredentials([gitUsernamePassword(credentialsId: 'Ksab070', gitToolName: 'Default')]) {
                         sh '''
                         echo "Checking repository status: "
                         git status
@@ -68,7 +60,7 @@ pipeline {
                         git commit -m "Updated environment variables"
                         
                         echo "Pushing changes to github: "
-                        git push https://github.com/DevMadhup/Wanderlust-Mega-Project.git main
+                        git push https://github.com/Ksab070/Wanderlust-Mega-Project.git main
                     '''
                     }
                 }
@@ -79,7 +71,7 @@ pipeline {
         always {
             script {
                 emailext attachLog: true,
-                from: '8007930568pandey@gmail.com',
+                from: 'khansubhan070@gmail.com',
                 subject: "Wanderlust Application has been updated and deployed - '${currentBuild.result}'",
                 body: """
                     <html>
@@ -96,7 +88,7 @@ pipeline {
                     </body>
                     </html>
             """,
-            to: '8007930568pandey@gmail.com',
+            to: 'khansubhan070@gmail.com',
             mimeType: 'text/html'
             }
         }
