@@ -26,11 +26,11 @@ resource "aws_cloudformation_stack" "nodegroup" {
   #Pass the parameters to be called to the cloudformation
   parameters = {
     ClusterName                         = aws_eks_cluster.eks.name
-    ClusterControlPlaneSecurityGroup    = aws_security_group.j-security-group.id
+    ClusterControlPlaneSecurityGroup    = data.aws_eks_cluster.eks_cluster.vpc_config[0].cluster_security_group_id
     NodeGroupName                       = "eks-demo-node"
-    NodeAutoScalingGroupMinSize         = "2"
-    NodeAutoScalingGroupDesiredCapacity = "2"
-    NodeAutoScalingGroupMaxSize         = "2"
+    NodeAutoScalingGroupMinSize         = "4"
+    NodeAutoScalingGroupDesiredCapacity = "4"
+    NodeAutoScalingGroupMaxSize         = "4"
     NodeInstanceType                    = "t3.medium"
     NodeVolumeSize                      = "30"
     NodeVolumeType                      = "gp3"

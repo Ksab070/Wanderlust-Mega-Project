@@ -23,3 +23,10 @@ curl -SL https://github.com/docker/compose/releases/download/v2.34.0/docker-comp
 
 #Give everyone permission to 
 chmod 777 $DOCKER_PLUGIN_DIR/docker-compose
+
+#Run sonarqube
+docker run -itd --name SonarQube-Server -p 9000:9000 sonarqube:lts-community
+
+#Install trivy
+rpm -ivh https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.rpm
+
